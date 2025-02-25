@@ -3,7 +3,7 @@ package com.example.m2tmdbapp2025.model
 import com.google.gson.annotations.SerializedName
 
 
-data class Results (
+data class Person (
 
   @SerializedName("adult"                ) var adult              : Boolean?            = null,
   @SerializedName("gender"               ) var gender             : Int?                = null,
