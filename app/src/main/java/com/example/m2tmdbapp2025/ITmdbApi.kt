@@ -9,6 +9,8 @@ import retrofit2.http.Query
 // https://api.themoviedb.org/3/configuration?api_key=f8c59b73c44d9240c1ded0a07da0d5f5
 // https://api.themoviedb.org/3/person/popular?api_key=f8c59b73c44d9240c1ded0a07da0d5f5
 
+const val TMDB_API_KEY = "f8c59b73c44d9240c1ded0a07da0d5f5"
+
 interface ITmdbApi {
     @GET("person/popular")
     suspend fun getPopularPerson(
