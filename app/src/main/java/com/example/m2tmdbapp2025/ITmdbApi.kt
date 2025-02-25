@@ -1,12 +1,18 @@
 package com.example.m2tmdbapp2025
 
-import retrofit2.Response
+import com.example.m2tmdbapp2025.model.PersonPopularResponse
+import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
+
+// TMDB API call example:
+// https://api.themoviedb.org/3/configuration?api_key=f8c59b73c44d9240c1ded0a07da0d5f5
+// https://api.themoviedb.org/3/person/popular?api_key=f8c59b73c44d9240c1ded0a07da0d5f5
 
 interface ITmdbApi {
-    @GET("users/{userId}")
-    suspend fun getUser(@Path("userId") userId: Int): Response<com.google.firebase.firestore.auth.User>
-
-    // Ajoutez d'autres points de terminaison ici...
+    @GET("person/popular")
+    suspend fun getPopularPerson(
+        @Query("api_key") apiKey: String,
+        @Query("page") pageNb: Int
+    ) : Call<PersonPopularResponse>
 }
