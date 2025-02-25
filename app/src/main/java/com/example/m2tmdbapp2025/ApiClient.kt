@@ -4,26 +4,37 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
-object RetrofitClient {
-    private const val BASE_URL =
-        "https://api.example.com/" // Remplacez par l'URL de base de votre API
+class ApiClient {
+    /* companion is used to get the JAVA "static" behavior we need to implement a singleton pattern
+     * see https://kotlinlang.org/docs/object-declarations.html#companion-objects
+     */
+    companion object RetrofitClient {
+        const val TMDBAPI_BASE_URL = "https://api.themoviedb.org/3/"
+        const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w45"
 
-    private val loggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY // Affiche le corps de la requête et de la réponse
-    }
+        // singleton instance
+        val instance = build()
 
-    private val client = OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .build()
+        private fun build(): Retrofit {
+            val converter = GsonConverterFactory.create()
 
-    val instance: com.google.firebase.appdistribution.gradle.ApiService by lazy {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
+            val httpLoggingInterceptor = HttpLoggingInterceptor()
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC)
 
-        retrofit.create(ApiService::class.java)
+            val okHttpClient: OkHttpClient = OkHttpClient().newBuilder()
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .addInterceptor(httpLoggingInterceptor)
+                .build()
+
+            return Retrofit.Builder()
+                .baseUrl(TMDBAPI_BASE_URL)
+                .addConverterFactory(converter)
+                .client(okHttpClient)
+                .build()
+
+        }
     }
 }
