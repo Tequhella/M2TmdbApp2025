@@ -1,5 +1,6 @@
 package com.example.m2tmdbapp2025
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -9,7 +10,8 @@ import com.example.m2tmdbapp2025.model.Person
 
 class PersonPopularAdapter(private val persons: ArrayList<Person>) : RecyclerView.Adapter<PersonPopularAdapter.PersonPopularViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonPopularViewHolder {
-        TODO("Not yet implemented")
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.person_item, parent, false)
+        return PersonPopularViewHolder(view)
     }
 
     override fun getItemCount(): Int {
@@ -17,7 +19,10 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>) : RecyclerVie
     }
 
     override fun onBindViewHolder(holder: PersonPopularViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val curIem = persons[position]
+        holder.nameTv.text = curIem.name
+        holder.knownForTv.text = curIem.knownForDepartment
+        holder.popularityTv.text = curIem.popularity.toString()
     }
 
     class PersonPopularViewHolder(view: View) : RecyclerView.ViewHolder(view) {
