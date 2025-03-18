@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         // Init recycler view
         binding.popularPersonRv.layoutManager = LinearLayoutManager(this)
         binding.popularPersonRv.setHasFixedSize(true)
+        personPopularAdapter = PersonPopularAdapter(persons)
         binding.popularPersonRv.adapter = personPopularAdapter
 
 
