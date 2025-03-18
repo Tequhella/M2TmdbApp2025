@@ -7,10 +7,46 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.m2tmdbapp2025.databinding.PersonItemBinding
 import com.example.m2tmdbapp2025.model.Person
 import com.squareup.picasso.Picasso
 
 class PersonPopularAdapter(private val persons: ArrayList<Person>) : RecyclerView.Adapter<PersonPopularAdapter.PersonPopularViewHolder>() {
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): PersonPopularViewHolder {
+        val binding = PersonItemBinding.inflate((LayoutInflater.from(parent.context)), parent, false)
+        return PersonPopularViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(
+        holder: PersonPopularViewHolder,
+        position: Int
+    ) {
+        val curItem = persons[position]
+        holder.binding.nameTv.text = curItem.name
+        holder.binding.knownForTv.text = curItem.knownForDepartment
+        holder.binding.popularityTv.text = curItem.popularity.toString()
+        Picasso.get()
+            .load(ApiClient.IMAGE_BASE_URL + curItem.profilePath)
+            .placeholder(android.R.drawable.progress_horizontal)
+            .error(android.R.drawable.stat_notify_error)
+            .into(holder.binding.photoIv)
+    }
+
+    override fun getItemCount(): Int {
+        return persons.size
+    }
+
+    class PersonPopularViewHolder(var binding : PersonItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+    /* ==========================================================================================
+      * | Same implementation done with 'findViewById' to understand the role of the view holder |
+      * ==========================================================================================
+
+    // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonPopularViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(parent.context).inflate(R.layout.person_item, parent, false)
@@ -45,5 +81,8 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>) : RecyclerVie
             photoIv = view.findViewById(R.id.photo_iv)
         }
     }
+
+     */
+
 }
 
