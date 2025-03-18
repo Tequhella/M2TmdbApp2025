@@ -18,7 +18,6 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>) : RecyclerVie
     }
 
     override fun getItemCount(): Int {
-        Log.i("PersonPopularAdapter", "size=$persons.size")
         return persons.size
     }
 

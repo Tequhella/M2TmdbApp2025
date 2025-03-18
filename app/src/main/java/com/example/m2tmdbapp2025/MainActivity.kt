@@ -2,11 +2,17 @@ package com.example.m2tmdbapp2025
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.GONE
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
+import androidx.recyclerview.widget.RecyclerView.VISIBLE
 import com.example.m2tmdbapp2025.databinding.ActivityMainBinding
 import com.example.m2tmdbapp2025.model.Person
 import com.example.m2tmdbapp2025.model.PersonPopularResponse
@@ -42,6 +48,17 @@ class MainActivity : AppCompatActivity() {
         binding.popularPersonRv.layoutManager = LinearLayoutManager(this)
         personPopularAdapter = PersonPopularAdapter(persons)
         binding.popularPersonRv.adapter = personPopularAdapter
+        binding.popularPersonRv.addOnScrollListener(object : OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == SCROLL_STATE_IDLE && !recyclerView.canScrollVertically(1)) {
+                    if (curPage < totalPage) {
+                        curPage++
+                        loadPage(curPage)
+                    }
+                }
+            }
+        })
 
         // load 1st page
         loadPage(curPage)
@@ -51,6 +68,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadPage(page: Int ) {
         val tmdbapi = ApiClient.instance.create(ITmdbApi::class.java)
         val call: Call<PersonPopularResponse> = tmdbapi.getPopularPerson(TMDB_API_KEY, page)
+        binding.progressWheel.visibility = VISIBLE
 
         call.enqueue(object : Callback<PersonPopularResponse> {
             override fun onResponse(
@@ -58,9 +76,8 @@ class MainActivity : AppCompatActivity() {
                 response: Response<PersonPopularResponse>
             ) {
                 if (response.isSuccessful) {
-
+                    Toast.makeText(applicationContext, "Page $page loaded", Toast.LENGTH_SHORT).show()
                     persons.addAll(response.body()!!.results)
-                    Log.i(LOGTAG, persons.toString())
                     totalResults = response.body()?.totalResults!!
                     Log.d(LOGTAG, "got ${persons.size}/${totalResults} elements")
                     personPopularAdapter.notifyDataSetChanged()
@@ -72,10 +89,12 @@ class MainActivity : AppCompatActivity() {
                         "Call to getPopularPerson failed with error code $response.code()"
                     )
                 }
+                binding.progressWheel.visibility= GONE
             }
 
             override fun onFailure(call: Call<PersonPopularResponse>, t: Throwable) {
                 Log.e(LOGTAG, "Call to TMDB API failed")
+                binding.progressWheel.visibility= GONE
             }
 
         })
