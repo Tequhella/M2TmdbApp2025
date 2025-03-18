@@ -47,9 +47,16 @@ class MainActivity : AppCompatActivity() {
                 call: Call<PersonPopularResponse>,
                 response: Response<PersonPopularResponse>
             ) {
-               response.body()?.let {
-                   Log.i(LOGTAG, it.toString())
-               }
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        persons.addAll(it.results)
+                        personPopularAdapter.notifyDataSetChanged()
+
+                        //Log.i(LOGTAG, it.toString())
+                    }
+                } else {
+                    Log.e(LOGTAG, "Call to getPopularPerson failed with error code $response.code()")
+                }
             }
 
             override fun onFailure(call: Call<PersonPopularResponse>, t: Throwable) {
