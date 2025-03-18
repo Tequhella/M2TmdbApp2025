@@ -19,13 +19,13 @@ class MainActivity : AppCompatActivity() {
     private val LOGTAG = MainActivity::class.simpleName
     private lateinit var binding: ActivityMainBinding
     private lateinit var personPopularAdapter: PersonPopularAdapter
-    private val persons = arrayListOf<Person>()
+    private var persons = arrayListOf<Person>()
+    private var curPage = 1
     private var totalResults = 0
+    private var totalPage = Int.MAX_VALUE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -34,15 +34,23 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         // Init recycler view
         binding.popularPersonRv.setHasFixedSize(true)
         binding.popularPersonRv.layoutManager = LinearLayoutManager(this)
         personPopularAdapter = PersonPopularAdapter(persons)
         binding.popularPersonRv.adapter = personPopularAdapter
 
+        // load 1st page
+        loadPage(curPage)
 
+}
+
+    private fun loadPage(page: Int ) {
         val tmdbapi = ApiClient.instance.create(ITmdbApi::class.java)
-        val call : Call<PersonPopularResponse> = tmdbapi.getPopularPerson(TMDB_API_KEY, 1)
+        val call: Call<PersonPopularResponse> = tmdbapi.getPopularPerson(TMDB_API_KEY, page)
 
         call.enqueue(object : Callback<PersonPopularResponse> {
             override fun onResponse(
@@ -56,10 +64,13 @@ class MainActivity : AppCompatActivity() {
                     totalResults = response.body()?.totalResults!!
                     Log.d(LOGTAG, "got ${persons.size}/${totalResults} elements")
                     personPopularAdapter.notifyDataSetChanged()
-
+                    binding.totalResultsTv.text = getString(R.string.total_results_text, persons.size, totalResults)
 
                 } else {
-                    Log.e(LOGTAG, "Call to getPopularPerson failed with error code $response.code()")
+                    Log.e(
+                        LOGTAG,
+                        "Call to getPopularPerson failed with error code $response.code()"
+                    )
                 }
             }
 
@@ -68,8 +79,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-
-
     }
 
 }
