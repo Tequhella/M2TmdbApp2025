@@ -9,8 +9,12 @@
         android:layout_height="300dp"
         android:paddingLeft="20dp"
         android:paddingBottom="40dp"
-        app:exampleDimension="24sp"
-        app:exampleDrawable="@android:drawable/ic_menu_add"
-        app:exampleString="Hello, ScoreGaugeView" />
+        app:scoreColor="@color/teal_200"
+        app:scoreLabel="GOOD"
+        app:scoreValue="78.5"
+        app:scoreMax="100.0"
+        app:layout_constraintBottom_toTopOf="@+id/separatot_fl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </FrameLayout>

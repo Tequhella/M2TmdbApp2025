@@ -65,19 +65,6 @@
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/known_for_tv" />
 
-    <com.example.m2tmdbapp2025.ScoreGaugeView
-        style="@style/Widget.Theme.M2TmdbApp2025.MyView"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
-        android:paddingLeft="20dp"
-        android:paddingBottom="40dp"
-        app:exampleDimension="24sp"
-        app:exampleDrawable="@android:drawable/ic_menu_add"
-        app:exampleString="Hello, ScoreGaugeView"
-        app:layout_constraintBottom_toTopOf="@+id/separatot_fl"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <FrameLayout
         android:id="@+id/separatot_fl"
         android:layout_width="0dp"
