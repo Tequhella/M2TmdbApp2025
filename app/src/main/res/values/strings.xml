@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">M2TmdbApp2025</string>
+    <string name="total_results_default_text">nothing to show !</string>
 </resources>
