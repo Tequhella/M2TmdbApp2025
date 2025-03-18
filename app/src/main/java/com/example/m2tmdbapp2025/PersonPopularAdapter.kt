@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.m2tmdbapp2025.model.Person
+import com.squareup.picasso.Picasso
 
 class PersonPopularAdapter(private val persons: ArrayList<Person>) : RecyclerView.Adapter<PersonPopularAdapter.PersonPopularViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonPopularViewHolder {
@@ -22,10 +23,15 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>) : RecyclerVie
     }
 
     override fun onBindViewHolder(holder: PersonPopularViewHolder, position: Int) {
-        val curIem = persons[position]
-        holder.nameTv.text = curIem.name
-        holder.knownForTv.text = curIem.knownForDepartment
-        holder.popularityTv.text = curIem.popularity.toString()
+        val curItem = persons[position]
+        holder.nameTv.text = curItem.name
+        holder.knownForTv.text = curItem.knownForDepartment
+        holder.popularityTv.text = curItem.popularity.toString()
+        Picasso.get()
+            .load(ApiClient.IMAGE_BASE_URL + curItem.profilePath)
+            .placeholder(android.R.drawable.progress_horizontal)
+            .error(android.R.drawable.stat_notify_error)
+            .into(holder.photoIv)
     }
 
     class PersonPopularViewHolder(view: View) : RecyclerView.ViewHolder(view) {
