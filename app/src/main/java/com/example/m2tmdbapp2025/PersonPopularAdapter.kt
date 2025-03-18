@@ -1,5 +1,6 @@
 package com.example.m2tmdbapp2025
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +11,13 @@ import com.example.m2tmdbapp2025.model.Person
 
 class PersonPopularAdapter(private val persons: ArrayList<Person>) : RecyclerView.Adapter<PersonPopularAdapter.PersonPopularViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonPopularViewHolder {
+        // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(parent.context).inflate(R.layout.person_item, parent, false)
         return PersonPopularViewHolder(view)
     }
 
     override fun getItemCount(): Int {
+        Log.i("PersonPopularAdapter", "size=$persons.size")
         return persons.size
     }
 
@@ -30,7 +33,6 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>) : RecyclerVie
         val knownForTv: TextView
         val popularityTv: TextView
         val photoIv: ImageView
-
         init {
             nameTv = view.findViewById(R.id.name_tv)
             knownForTv = view.findViewById(R.id.known_for_tv)

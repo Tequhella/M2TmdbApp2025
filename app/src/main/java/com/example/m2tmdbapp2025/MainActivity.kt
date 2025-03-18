@@ -15,10 +15,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
+
     private val LOGTAG = MainActivity::class.simpleName
     private lateinit var binding: ActivityMainBinding
     private lateinit var personPopularAdapter: PersonPopularAdapter
     private val persons = arrayListOf<Person>()
+    private var totalResults = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +35,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Init recycler view
-        binding.popularPersonRv.layoutManager = LinearLayoutManager(this)
         binding.popularPersonRv.setHasFixedSize(true)
+        binding.popularPersonRv.layoutManager = LinearLayoutManager(this)
         personPopularAdapter = PersonPopularAdapter(persons)
         binding.popularPersonRv.adapter = personPopularAdapter
 
@@ -48,12 +50,14 @@ class MainActivity : AppCompatActivity() {
                 response: Response<PersonPopularResponse>
             ) {
                 if (response.isSuccessful) {
-                    response.body()?.let {
-                        persons.addAll(it.results)
-                        personPopularAdapter.notifyDataSetChanged()
 
-                        //Log.i(LOGTAG, it.toString())
-                    }
+                    persons.addAll(response.body()!!.results)
+                    Log.i(LOGTAG, persons.toString())
+                    totalResults = response.body()?.totalResults!!
+                    Log.d(LOGTAG, "got ${persons.size}/${totalResults} elements")
+                    personPopularAdapter.notifyDataSetChanged()
+
+
                 } else {
                     Log.e(LOGTAG, "Call to getPopularPerson failed with error code $response.code()")
                 }
