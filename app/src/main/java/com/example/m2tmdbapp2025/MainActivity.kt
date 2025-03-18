@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.m2tmdbapp2025.model.PersonPopularResponse
-import okhttp3.Callback
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
@@ -25,23 +25,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         val tmdbapi = ApiClient.instance.create(ITmdbApi::class.java)
-        val call = tmdbapi.getPopularPerson(TMDB_API_KEY, 1)
+        val call : Call<PersonPopularResponse> = tmdbapi.getPopularPerson(TMDB_API_KEY, 1)
 
-        call.enqueue(object : Callback<PersonPopularResponse>) {
+        call.enqueue(object : Callback<PersonPopularResponse> {
             override fun onResponse(
                 call: Call<PersonPopularResponse>,
                 response: Response<PersonPopularResponse>
             ) {
-                if (response.isSuccessful) {
-                    Log.d(LOGTAG,"API OK")
-                }
+               response.body()?.let {
+                   Log.i(LOGTAG, it.toString())
+               }
             }
 
-        }
-        override fun onFailure(call: Call<PersonPopularResponse>, t: Throwable) {
-            Log.e(LOGTAG, "Call to TMDB API failed")
-        }
+            override fun onFailure(call: Call<PersonPopularResponse>, t: Throwable) {
+                Log.e(LOGTAG, "Call to TMDB API failed")
+            }
 
-    })
+        })
+
+
+    }
 
 }

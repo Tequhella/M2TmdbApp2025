@@ -13,7 +13,7 @@ const val TMDB_API_KEY = "f8c59b73c44d9240c1ded0a07da0d5f5"
 
 interface ITmdbApi {
     @GET("person/popular")
-    suspend fun getPopularPerson(
+    fun getPopularPerson(
         @Query("api_key") apiKey: String,
         @Query("page") pageNb: Int
     ) : Call<PersonPopularResponse>
