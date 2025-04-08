@@ -117,7 +117,13 @@ class MainActivity : AppCompatActivity() {
                     totalResults = response.body()?.totalResults!!
                     Log.d(LOGTAG, "got ${persons.size}/${totalResults} elements")
                     personPopularAdapter.notifyDataSetChanged()
+                    personPopularAdapter.setMaxPopularity()
+                    // TODO : uncomment for demo purpose only
+                    if (isNotifPermGranted && curPage == 1) {
+                        TmdbNotifications.createPopularPersonNotification(applicationContext, persons[0])
+                    }
                     binding.totalResultsTv.text = getString(R.string.total_results_text, persons.size, totalResults)
+
 
                 } else {
                     Log.e(
