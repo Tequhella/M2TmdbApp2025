@@ -20,14 +20,23 @@ import androidx.recyclerview.widget.RecyclerView.GONE
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import androidx.recyclerview.widget.RecyclerView.VISIBLE
+import androidx.work.BackoffPolicy
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.m2tmdbapp2025.databinding.ActivityMainBinding
 import com.example.m2tmdbapp2025.model.Person
 import com.example.m2tmdbapp2025.model.PersonPopularResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 const val NOTIFICATION_CHANNEL_ID = "popular_person_notification_channel_id"
+const val TMDB_WORK_REQUEST_TAG = "tmdb-popular-person"
 
 class MainActivity : AppCompatActivity() {
 
@@ -73,6 +82,7 @@ class MainActivity : AppCompatActivity() {
 
         // person popular notification channel creation
         createNotificationChannel()
+        initWorkManager()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -101,6 +111,8 @@ class MainActivity : AppCompatActivity() {
 
 }
 
+
+
     private fun loadPage(page: Int ) {
         val tmdbapi = ApiClient.instance.create(ITmdbApi::class.java)
         val call: Call<PersonPopularResponse> = tmdbapi.getPopularPerson(TMDB_API_KEY, page)
@@ -119,9 +131,9 @@ class MainActivity : AppCompatActivity() {
                     personPopularAdapter.notifyDataSetChanged()
                     personPopularAdapter.setMaxPopularity()
                     // TODO : uncomment for demo purpose only
-                    if (isNotifPermGranted && curPage == 1) {
+                    /*if (isNotifPermGranted && curPage == 1) {
                         TmdbNotifications.createPopularPersonNotification(applicationContext, persons[0])
-                    }
+                    }*/
                     binding.totalResultsTv.text = getString(R.string.total_results_text, persons.size, totalResults)
 
 
@@ -176,6 +188,42 @@ class MainActivity : AppCompatActivity() {
             // The registered ActivityResultCallback gets the result of this request.
             requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
+    }
+
+    private fun initWorkManager() {
+        // compute delay between now and wished work request start
+        val currentTime = Calendar.getInstance()
+        val scheduledTime = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 15)
+            set(Calendar.MINUTE, 2)
+            if (before(currentTime)) {
+                add(Calendar.DATE, 1)
+            }
+        }
+        val initialDelay = scheduledTime.timeInMillis - currentTime.timeInMillis
+
+        // only need to be connected to any network
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        // Build work request
+        val tmdbWorkRequest = PeriodicWorkRequestBuilder<TmdbDailyWorker>(1, TimeUnit.DAYS)
+            .addTag(TMDB_WORK_REQUEST_TAG)
+            .setConstraints(constraints)
+            .setInitialDelay(initialDelay,TimeUnit.MILLISECONDS)
+            .setBackoffCriteria( // wait one hour before retrying
+            BackoffPolicy.LINEAR,
+            1,
+            TimeUnit.HOURS)
+            .build()
+
+        // enqueue request
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            TMDB_WORK_REQUEST_TAG,
+            ExistingPeriodicWorkPolicy.KEEP,
+            tmdbWorkRequest)
+
     }
 
 }
