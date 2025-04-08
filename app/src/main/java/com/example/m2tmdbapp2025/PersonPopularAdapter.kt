@@ -1,5 +1,6 @@
 package com.example.m2tmdbapp2025
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,11 +8,14 @@ import com.example.m2tmdbapp2025.databinding.PersonItemBinding
 import com.example.m2tmdbapp2025.model.Person
 import com.squareup.picasso.Picasso
 
-class PersonPopularAdapter(private val persons: ArrayList<Person>) : RecyclerView.Adapter<PersonPopularAdapter.PersonPopularViewHolder>() {
+class PersonPopularAdapter(private val persons: ArrayList<Person>, context: Context) : RecyclerView.Adapter<PersonPopularAdapter.PersonPopularViewHolder>() {
     private var maxPopularity : Double = 0.0
     private val scoreRatings: Array<String> = context.resources.getStringArray(R.array.score_rating)
     private val ratingColors: Array<String> = context.resources.getStringArray(R.array.rating_colors)
 
+    init {
+        setMaxPopularity()
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -53,7 +57,12 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>) : RecyclerVie
     private fun mapValueToIndex(value: Double?, max: Double, size: Int): Int =
         if (value != null && max > 0.0) ((size * value) / max).toInt().coerceAtMost(size - 1) else 0
 
-
+    fun setMaxPopularity() {
+        maxPopularity = 0.0
+        for (p in persons) {
+            if (p.popularity != null && p.popularity!! > maxPopularity) maxPopularity = p.popularity!!
+        }
+    }
 
     class PersonPopularViewHolder(var binding : PersonItemBinding) : RecyclerView.ViewHolder(binding.root)
 
