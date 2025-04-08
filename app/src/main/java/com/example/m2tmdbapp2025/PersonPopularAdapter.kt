@@ -16,19 +16,16 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, context: Cont
     init {
         setMaxPopularity()
     }
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): PersonPopularViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonPopularViewHolder {
         val binding = PersonItemBinding.inflate((LayoutInflater.from(parent.context)), parent, false)
         return PersonPopularViewHolder(binding)
     }
 
-    override fun onBindViewHolder(
-        holder: PersonPopularViewHolder,
-        position: Int
-    ) {
+    override fun getItemCount(): Int {
+        return persons.size
+    }
+
+    override fun onBindViewHolder(holder: PersonPopularViewHolder, position: Int) {
         val curItem = persons[position]
         holder.binding.nameTv.text = curItem.name
         holder.binding.knownForTv.text = curItem.knownForDepartment
@@ -48,10 +45,6 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, context: Cont
         )
     }
 
-    override fun getItemCount(): Int {
-        return persons.size
-    }
-
     private fun getRating(value: Double?, max: Double): String {
         val index = mapValueToIndex(value, max, scoreRatings.size)
         return scoreRatings[index]
@@ -65,6 +58,7 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, context: Cont
     private fun mapValueToIndex(value: Double?, max: Double, size: Int): Int =
         if (value != null && max > 0.0) ((size * value) / max).toInt().coerceAtMost(size - 1) else 0
 
+
     fun setMaxPopularity() {
         maxPopularity = 0.0
         for (p in persons) {
@@ -72,35 +66,49 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, context: Cont
         }
     }
 
-    class PersonPopularViewHolder(var binding : PersonItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+    /**
+     * Provide a reference to the type of views that you are using (custom ViewHolder)
+     */
+    class PersonPopularViewHolder(var binding: PersonItemBinding) : RecyclerView.ViewHolder(binding.root)
+
 
     /* ==========================================================================================
-      * | Same implementation done with 'findViewById' to understand the role of the view holder |
-      * ==========================================================================================
+     * | Same implementation done with 'findViewById' to understand the role of the view holder |
+     * ==========================================================================================
 
     // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonPopularViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonPopularAdapter.PersonPopularViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(parent.context).inflate(R.layout.person_item, parent, false)
         return PersonPopularViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return persons.size
-    }
+    // Replace the contents of a view (invoked by the layout manager)
+    override fun onBindViewHolder(holder: PersonPopularAdapter.PersonPopularViewHolder, position: Int) {
+        // Get element from your dataset at this position
+        val curItem = persons.get(position)
 
-    override fun onBindViewHolder(holder: PersonPopularViewHolder, position: Int) {
-        val curItem = persons[position]
+        // and replace the contents of the view with that element
         holder.nameTv.text = curItem.name
         holder.knownForTv.text = curItem.knownForDepartment
         holder.popularityTv.text = curItem.popularity.toString()
         Picasso.get()
-            .load(ApiClient.IMAGE_BASE_URL + curItem.profilePath)
+            .load(IMAGE_BASE_URL + curItem.profilePath)
             .placeholder(android.R.drawable.progress_horizontal)
             .error(android.R.drawable.stat_notify_error)
             .into(holder.photoIv)
     }
 
+    // Return the size of your dataset (invoked by the layout manager)
+    override fun getItemCount(): Int {
+        return persons.size
+    }
+
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder)
+     */
     class PersonPopularViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameTv: TextView
         val knownForTv: TextView
@@ -113,8 +121,6 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, context: Cont
             photoIv = view.findViewById(R.id.photo_iv)
         }
     }
-
      */
-
 }
 
