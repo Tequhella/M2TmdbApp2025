@@ -36,6 +36,9 @@ class ScoreGaugeView @JvmOverloads constructor(
     private val fontMetrics = paint.fontMetrics
     private val textHeight = abs(paint.fontMetrics.ascent + fontMetrics.descent)
 
+    //  stroke width for rectangles
+    private val so = 4f
+
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ScoreGaugeView)
         scoreMax = typedArray.getFloat(R.styleable.ScoreGaugeView_scoreMax, 100f)
@@ -94,6 +97,18 @@ class ScoreGaugeView @JvmOverloads constructor(
             (width- paddingRight) * percent,
             height.toFloat() - paddingBottom,
             paint)
+
+        // Draw stroke on main rectangle
+        paint.style= Paint.Style.STROKE
+        paint.strokeWidth = so * 1.5f
+        paint.color= Color.BLACK
+        canvas.drawRect(
+            paddingLeft.toFloat() + so,
+            paddingTop.toFloat() + so,
+            width.toFloat() - paddingRight - so,
+            height.toFloat() - paddingBottom - so,
+            paint)
+
 
     }
 
