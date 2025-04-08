@@ -127,6 +127,14 @@ class ScoreGaugeView @JvmOverloads constructor(
 
     }
 
+    fun updateScore(label:String, color: Int, value:Float, max:Float) {
+        scoreLabel = label
+        scoreColor = color
+        scoreValue = value
+        scoreMax  = max
+        invalidate()
+    }
+
 }
 
 
