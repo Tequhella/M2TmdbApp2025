@@ -8,6 +8,10 @@ import com.example.m2tmdbapp2025.model.Person
 import com.squareup.picasso.Picasso
 
 class PersonPopularAdapter(private val persons: ArrayList<Person>) : RecyclerView.Adapter<PersonPopularAdapter.PersonPopularViewHolder>() {
+    private var maxPopularity : Double = 0.0
+    private val scoreRatings: Array<String> = context.resources.getStringArray(R.array.score_rating)
+    private val ratingColors: Array<String> = context.resources.getStringArray(R.array.rating_colors)
+
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -35,6 +39,21 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>) : RecyclerVie
     override fun getItemCount(): Int {
         return persons.size
     }
+
+    private fun getRating(value: Double?, max: Double): String {
+        val index = mapValueToIndex(value, max, scoreRatings.size)
+        return scoreRatings[index]
+    }
+
+    private fun getScoreColor(value: Double?, max: Double): Int {
+        val index = mapValueToIndex(value, max, ratingColors.size)
+        return ratingColors[index].toInt()
+    }
+
+    private fun mapValueToIndex(value: Double?, max: Double, size: Int): Int =
+        if (value != null && max > 0.0) ((size * value) / max).toInt().coerceAtMost(size - 1) else 0
+
+
 
     class PersonPopularViewHolder(var binding : PersonItemBinding) : RecyclerView.ViewHolder(binding.root)
 
