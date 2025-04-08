@@ -109,6 +109,21 @@ class ScoreGaugeView @JvmOverloads constructor(
             height.toFloat() - paddingBottom - so,
             paint)
 
+        //val textWidth = textPaint.measureText(scoreLabel)
+        paint.color = Color.DKGRAY
+        paint.style = Paint.Style.FILL
+        paint.textAlign = Paint.Align.LEFT
+        canvas.drawText(
+            " $scoreLabel",
+            paddingLeft.toFloat(),
+            (paddingTop + height - paddingBottom + textHeight) * 0.5f,
+            paint)
+
+        paint.textAlign = Paint.Align.RIGHT
+        canvas.drawText((100 * percent).toInt().toString() +  "% ",
+            width - paddingRight.toFloat(),
+            (paddingTop + height - paddingBottom + textHeight) * 0.5f,
+            paint)
 
     }
 
