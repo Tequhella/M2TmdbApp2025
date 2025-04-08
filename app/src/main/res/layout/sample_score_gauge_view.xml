@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <com.example.m2tmdbapp2025.ScoreGaugeView
-        style="@style/Widget.Theme.M2TmdbApp2025.MyView"
+        style="@style/Widget.Theme.M2TmdbApp2025.ScoreGaugeView"
         android:layout_width="200dp"
         android:layout_height="300dp"
         android:paddingLeft="20dp"

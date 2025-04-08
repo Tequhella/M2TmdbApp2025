@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Widget.Theme.M2TmdbApp2025.MyView" parent="">
+    <style name="Widget.Theme.M2TmdbApp2025.ScoreGaugeView" parent="">
         <item name="android:background">@color/gray_400</item>
         <item name="scoreColor">@color/light_blue_400</item>
     </style>

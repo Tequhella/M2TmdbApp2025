@@ -1,10 +1,12 @@
 package com.example.m2tmdbapp2025
 
 import android.content.Context
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import kotlin.math.abs
 import kotlin.math.min
@@ -37,7 +39,7 @@ class ScoreGaugeView @JvmOverloads constructor(
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ScoreGaugeView)
         scoreMax = typedArray.getFloat(R.styleable.ScoreGaugeView_scoreMax, 100f)
-        scoreValue = typedArray.getFloat(R.styleable.ScoreGaugeView_scoreValue, 75f)
+        scoreValue = typedArray.getFloat(R.styleable.ScoreGaugeView_scoreValue, 50f)
         scoreLabel = typedArray.getString(R.styleable.ScoreGaugeView_scoreLabel)
         if (scoreLabel == null) scoreLabel = if (isInEditMode) context.getString(R.string.no_label) else ""
         scoreColor = typedArray.getColor(R.styleable.ScoreGaugeView_scoreColor, Color.GREEN)
@@ -74,4 +76,60 @@ class ScoreGaugeView @JvmOverloads constructor(
         }
     }
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        Log.d(LOGTAG,"onSizeChanged($w,$h,$oldw,$oldh)")
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+
+        val percent = if (scoreMax > 0) scoreValue / scoreMax else 0f
+        // Draw gauge main rectangle
+        paint.style= Paint.Style.FILL
+        paint.color=scoreColor
+        canvas.drawRect(
+            paddingLeft.toFloat(),
+            paddingTop.toFloat(),
+            (width- paddingRight) * percent,
+            height.toFloat() - paddingBottom,
+            paint)
+
+    }
+
 }
+
+
+
+/*
+ * --- JAVA Style way of implementing constructors ---
+ *
+class ScoreGaugeView : View {
+
+    constructor(context: Context) : super(context) {
+        init(null, 0)
+    }
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        init(attrs, 0)
+    }
+
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
+        context,
+        attrs,
+        defStyle
+    ) {
+        init(attrs, defStyle)
+    }
+
+    fun init (attrs: AttributeSet?, defStyle: Int) {
+        val typedArray =
+            context.obtainStyledAttributes(attrs, R.styleable.ScoreGaugeView, defStyle, 0)
+        scoreMax = typedArray.getInt(R.styleable.ScoreGaugeView_scoreMax, 100)
+        scoreValue = typedArray.getFloat(R.styleable.ScoreGaugeView_scoreValue, 0f)
+        scoreLabel = typedArray.getString(R.styleable.ScoreGaugeView_scoreLabel).toString()
+        scoreColor = typedArray.getColor(R.styleable.ScoreGaugeView_scoreColor, 0)
+        typedArray.recycle()
+
+    }
+*/
