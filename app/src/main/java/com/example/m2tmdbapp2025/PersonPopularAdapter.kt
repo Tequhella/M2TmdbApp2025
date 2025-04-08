@@ -38,6 +38,14 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, context: Cont
             .placeholder(android.R.drawable.progress_horizontal)
             .error(android.R.drawable.stat_notify_error)
             .into(holder.binding.photoIv)
+
+        // set score gauge view
+        holder.binding.scoreGaugeView.updateScore(
+            getRating(curItem.popularity, maxPopularity),
+            getScoreColor(curItem.popularity,maxPopularity),
+            curItem.popularity!!.toFloat(),
+            maxPopularity.toFloat()
+        )
     }
 
     override fun getItemCount(): Int {
