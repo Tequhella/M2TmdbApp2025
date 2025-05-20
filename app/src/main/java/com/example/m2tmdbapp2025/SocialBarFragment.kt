@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.example.m2tmdbapp2025.databinding.FragmentSocialBarBinding
 
 class SocialBarFragment : Fragment() {
@@ -20,7 +21,8 @@ class SocialBarFragment : Fragment() {
         fun newInstance() = SocialBarFragment()
     }
 
-    private val viewModel: SocialBarViewModel by viewModels()
+    //private val viewModel: SocialBarViewModel by viewModels()
+    private val viewModel by activityViewModels<SocialBarViewModel>()
 
     /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
