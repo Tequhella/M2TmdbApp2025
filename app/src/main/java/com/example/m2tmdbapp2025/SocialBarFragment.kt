@@ -53,6 +53,20 @@ class SocialBarFragment : Fragment() {
                 binding.favoriteIv.setColorFilter(if (viewModel.isFavorite[mapkey] == true) cs!! else cn!! )
             }
 
+            // set like button
+            val nblikes = viewModel.nbLikes.getOrElse(mapkey, {0})
+            binding.nbLikeTv.setText(nblikes.toString())
+            val likeColor =  if (nblikes > 0 ) cs!! else cn!!
+            binding.likeIv.setColorFilter(likeColor)
+            binding.nbLikeTv.setTextColor(likeColor)
+
+            binding.likeIv.setOnClickListener {
+                viewModel.nbLikes.set(mapkey,viewModel.nbLikes.getOrElse(mapkey, {0}) + 1)
+                binding.nbLikeTv.setText(viewModel.nbLikes[mapkey].toString())
+                binding.likeIv.setColorFilter(cs!!)
+                binding.nbLikeTv.setTextColor(cs!!)
+            }
+
             // set share button
             binding.shareIv.setColorFilter(cn!!)
             binding.shareIv.setOnClickListener {
