@@ -6,8 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.m2tmdbapp2025.databinding.FragmentSocialBarBinding
 
 class SocialBarFragment : Fragment() {
+    private val LOGTAG = SocialBarFragment::class.simpleName
+    private lateinit var binding : FragmentSocialBarBinding
 
     companion object {
         fun newInstance() = SocialBarFragment()
@@ -25,6 +28,7 @@ class SocialBarFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_social_bar, container, false)
+        binding = FragmentSocialBarBinding.inflate(inflater)
+        return binding.root
     }
 }

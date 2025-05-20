@@ -1,17 +1,21 @@
 package com.example.m2tmdbapp2025
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.example.m2tmdbapp2025.databinding.PersonItemBinding
 import com.example.m2tmdbapp2025.model.Person
 import com.squareup.picasso.Picasso
 
-class PersonPopularAdapter(private val persons: ArrayList<Person>, context: Context) : RecyclerView.Adapter<PersonPopularAdapter.PersonPopularViewHolder>() {
+class PersonPopularAdapter(private val persons: ArrayList<Person>, private val appCompatActivity: AppCompatActivity) : RecyclerView.Adapter<PersonPopularAdapter.PersonPopularViewHolder>() {
+    private val LOGTAG= PersonPopularViewHolder::class.simpleName
     private var maxPopularity : Double = 0.0
-    private val scoreRatings: Array<String> = context.resources.getStringArray(R.array.score_rating)
-    private val ratingColors: Array<String> = context.resources.getStringArray(R.array.rating_colors)
+    private val scoreRatings: Array<String> = appCompatActivity.resources.getStringArray(R.array.score_rating)
+    private val ratingColors: Array<String> = appCompatActivity.resources.getStringArray(R.array.rating_colors)
 
     init {
         setMaxPopularity()
@@ -43,6 +47,17 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, context: Cont
             curItem.popularity!!.toFloat(),
             maxPopularity.toFloat()
         )
+
+    }
+
+    override fun onViewAttachedToWindow(holder: PersonPopularViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        Log.d(LOGTAG,"onViewAttachedToWindow("+holder.binding.nameTv.text+")")
+    }
+
+    override fun onViewDetachedFromWindow(holder: PersonPopularViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        Log.d(LOGTAG,"onViewDetachedToWindow("+holder.binding.nameTv.text+")")
     }
 
     private fun getRating(value: Double?, max: Double): String {
