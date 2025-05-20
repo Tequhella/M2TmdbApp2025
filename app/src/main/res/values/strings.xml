@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">M2TmdbApp2025</string>
+    <string name="main_activity_title">Popular persons</string>
     <string name="total_results_default_text">nothing to show !</string>
     <string name="total_results_text">Showing %1d/%1d persons</string>
     <string name="no_label">No label !</string>

@@ -60,10 +60,9 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, context: Cont
 
 
     fun setMaxPopularity() {
-        maxPopularity = 0.0
-        for (p in persons) {
-            if (p.popularity != null && p.popularity!! > maxPopularity) maxPopularity = p.popularity!!
-        }
+        maxPopularity = persons
+            .mapNotNull { it.popularity }
+            .maxOrNull() ?: 0.0
     }
 
 
