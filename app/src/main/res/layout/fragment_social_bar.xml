@@ -6,14 +6,46 @@
     android:layout_height="wrap_content"
     tools:context=".SocialBarFragment">
 
-    <TextView
-        android:layout_width="0dp"
+    <ImageView
+        android:id="@+id/favorite_iv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello Fragment"
-        android:textSize="40dp"
+        android:src="@drawable/ic_favorite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/like_iv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/like_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_like"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/share_iv"
+        app:layout_constraintStart_toEndOf="@+id/favorite_iv"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/like_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="0"
+        android:textSize="@dimen/nb_like_text"
+        app:layout_constraintBottom_toBottomOf="@+id/like_iv"
+        app:layout_constraintStart_toEndOf="@+id/like_iv"
+        app:layout_constraintTop_toTopOf="@+id/like_iv" />
+
+    <ImageView
+        android:id="@+id/share_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_share"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/like_iv"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
