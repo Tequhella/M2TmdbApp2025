@@ -104,12 +104,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-
+        /* Demo fragment dynamic attachment
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
         ft.setReorderingAllowed(true)
         ft.add(R.id.social_bar_fcv, SocialBarFragment.newInstance())
-        ft.commit()
-
+        ft.commit() */
 
         check4NotificationPermission()
 
