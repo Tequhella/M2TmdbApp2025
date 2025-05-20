@@ -40,8 +40,8 @@ class SocialBarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        cn = getContext()?.getColor(R.color.ic_social_normal)
-        cs = getContext()?.getColor(R.color.ic_social_selected)
+        cn = context?.getColor(R.color.ic_social_normal)
+        cs = context?.getColor(R.color.ic_social_selected)
 
         requireArguments().getString("sbfc_view_tag")?.let {
             val mapkey = it.toInt()
