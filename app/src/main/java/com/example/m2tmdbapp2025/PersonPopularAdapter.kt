@@ -51,21 +51,29 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, private val a
             maxPopularity.toFloat()
         )
 
+        // set social bar fragment container view tag with unique person id
+        holder.binding.socialBarFcv.tag = curItem.id.toString()
+
     }
 
     override fun onViewAttachedToWindow(holder: PersonPopularViewHolder) {
         super.onViewAttachedToWindow(holder)
-        Log.d(LOGTAG,"onViewAttachedToWindow("+holder.binding.nameTv.text+")")
-        Log.d(LOGTAG,"sbfcid="+holder.binding.socialBarFcv.id)
-        val bundle = bundleOf("Arg1" to "value1")
+        //Log.d(LOGTAG,"onViewAttachedToWindow("+holder.binding.nameTv.text+")")
+        //Log.d(LOGTAG,"sbfcid="+holder.binding.socialBarFcv.id)
+
+        val sbfcv = holder.binding.socialBarFcv
+        val bundle = bundleOf("sbfc_view_tag" to sbfcv.tag)
         appCompatActivity.supportFragmentManager.commitNow {
-            add(holder.binding.socialBarFcv.id,SocialBarFragment::class.java, bundle)
+            // use the default Fragment Factory to instanciate a new fragment
+            // (best choice to benefit from the life cycle management)
+            add(sbfcv.id,SocialBarFragment::class.java, bundle)
         }
     }
 
     override fun onViewDetachedFromWindow(holder: PersonPopularViewHolder) {
         super.onViewDetachedFromWindow(holder)
-        Log.d(LOGTAG,"onViewDetachedToWindow("+holder.binding.nameTv.text+")")
+        //Log.d(LOGTAG,"onViewDetachedToWindow("+holder.binding.nameTv.text+")")
+
         appCompatActivity.supportFragmentManager.findFragmentById(holder.binding.socialBarFcv.id)?.let {
             appCompatActivity.supportFragmentManager.commitNow {
                 Log.d(LOGTAG, "remove ${it.tag}")

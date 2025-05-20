@@ -1,7 +1,9 @@
 package com.example.m2tmdbapp2025
 
+import android.graphics.Color
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,8 @@ import com.example.m2tmdbapp2025.databinding.FragmentSocialBarBinding
 class SocialBarFragment : Fragment() {
     private val LOGTAG = SocialBarFragment::class.simpleName
     private lateinit var binding : FragmentSocialBarBinding
+    private var cn : Int? = Color.LTGRAY
+    private var cs : Int? = Color.RED
 
     companion object {
         fun newInstance() = SocialBarFragment()
@@ -18,11 +22,11 @@ class SocialBarFragment : Fragment() {
 
     private val viewModel: SocialBarViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // TODO: Use the ViewModel
-    }
+    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,5 +34,22 @@ class SocialBarFragment : Fragment() {
     ): View {
         binding = FragmentSocialBarBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        cn = getContext()?.getColor(R.color.ic_social_normal)
+        cs = getContext()?.getColor(R.color.ic_social_selected)
+
+        requireArguments().getString("sbfc_view_tag")?.let {
+            val mapkey = it.toInt()
+            //Log.d(LOGTAG, "mapkey=$mapkey")
+
+            // set share button
+            binding.shareIv.setColorFilter(cn!!)
+            binding.shareIv.setOnClickListener {
+                Log.d(LOGTAG,"shared clicked for id=${mapkey}")
+            }
+        }
     }
 }
