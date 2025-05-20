@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.GONE
@@ -103,6 +104,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+
+        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+        ft.setReorderingAllowed(true)
+        ft.add(R.id.social_bar_fcv, SocialBarFragment.newInstance())
+        ft.commit()
+
 
         check4NotificationPermission()
 

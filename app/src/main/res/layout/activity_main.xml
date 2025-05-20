@@ -23,11 +23,13 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/social_bar_fcv"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_600"
         app:layout_constraintBottom_toTopOf="@+id/total_results_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/popular_person_rv" />
+        app:layout_constraintTop_toBottomOf="@+id/popular_person_rv"
+        />
 
     <TextView
         android:id="@+id/total_results_tv"
