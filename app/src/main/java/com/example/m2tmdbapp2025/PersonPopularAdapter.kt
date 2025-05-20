@@ -3,9 +3,12 @@ package com.example.m2tmdbapp2025
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commitNow
 import androidx.recyclerview.widget.RecyclerView
 import com.example.m2tmdbapp2025.databinding.PersonItemBinding
 import com.example.m2tmdbapp2025.model.Person
@@ -53,11 +56,23 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, private val a
     override fun onViewAttachedToWindow(holder: PersonPopularViewHolder) {
         super.onViewAttachedToWindow(holder)
         Log.d(LOGTAG,"onViewAttachedToWindow("+holder.binding.nameTv.text+")")
+        Log.d(LOGTAG,"sbfcid="+holder.binding.socialBarFcv.id)
+        val bundle = bundleOf("Arg1" to "value1")
+        appCompatActivity.supportFragmentManager.commitNow {
+            add(holder.binding.socialBarFcv.id,SocialBarFragment::class.java, bundle)
+        }
     }
 
     override fun onViewDetachedFromWindow(holder: PersonPopularViewHolder) {
         super.onViewDetachedFromWindow(holder)
         Log.d(LOGTAG,"onViewDetachedToWindow("+holder.binding.nameTv.text+")")
+        appCompatActivity.supportFragmentManager.findFragmentById(holder.binding.socialBarFcv.id)?.let {
+            appCompatActivity.supportFragmentManager.commitNow {
+                Log.d(LOGTAG, "remove ${it.tag}")
+                // Acording to Google documentation fragment is also freed when removed
+                remove(it)
+            }
+        }
     }
 
     private fun getRating(value: Double?, max: Double): String {
@@ -84,7 +99,11 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, private val a
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
-    class PersonPopularViewHolder(var binding: PersonItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class PersonPopularViewHolder(var binding: PersonItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.socialBarFcv.id= View.generateViewId()
+        }
+    }
 
 
     /* ==========================================================================================
