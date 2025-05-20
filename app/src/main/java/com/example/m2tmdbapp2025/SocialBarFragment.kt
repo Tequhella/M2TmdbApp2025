@@ -45,6 +45,14 @@ class SocialBarFragment : Fragment() {
             val mapkey = it.toInt()
             //Log.d(LOGTAG, "mapkey=$mapkey")
 
+            // set favorite button
+            val isFavorite = viewModel.isFavorite.getOrElse(mapkey,{false})
+            binding.favoriteIv.setColorFilter(if (isFavorite) cs!! else cn!!)
+            binding.favoriteIv.setOnClickListener {
+                viewModel.isFavorite.set(mapkey, !viewModel.isFavorite.getOrElse(mapkey,{false}))
+                binding.favoriteIv.setColorFilter(if (viewModel.isFavorite[mapkey] == true) cs!! else cn!! )
+            }
+
             // set share button
             binding.shareIv.setColorFilter(cn!!)
             binding.shareIv.setOnClickListener {
