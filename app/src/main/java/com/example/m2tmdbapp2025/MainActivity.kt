@@ -11,6 +11,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -50,6 +51,9 @@ class MainActivity : AppCompatActivity() {
     private var curPage = 1
     private var totalResults = 0
     private var totalPage = Int.MAX_VALUE
+    private val socialBarViewModel: SocialBarViewModel by viewModels {
+        SocialBarViewModelFactory((application as TmdbApplication).socialBarDao)
+    }
 
     // Register the permissions callback, which handles the user's response to the
     // system permissions dialog. Save the return value, an instance of
@@ -110,7 +114,7 @@ class MainActivity : AppCompatActivity() {
         ft.setReorderingAllowed(true)
         ft.add(R.id.social_bar_fcv, SocialBarFragment.newInstance())
         ft.commit() */
-
+        addLivedataObservers()
         check4NotificationPermission()
         showHighScore()
 
@@ -240,4 +244,15 @@ class MainActivity : AppCompatActivity() {
         Log.i(LOGTAG, "person popular high score = $highscore")
     }
 
+    private fun addLivedataObservers() {
+        // Add observers on the LiveData returned by getAllFavorites and getAllLikes
+        // The onChanged() method fires when the observed data changes and the activity is
+        // in the foreground.
+        socialBarViewModel.nbLikes.observe(this) { map ->
+            Log.d(LOGTAG, "nblike map size = ${map.size}")
+        }
+        socialBarViewModel.isFavorite.observe(this) { map ->
+            Log.d(LOGTAG, "is favorite map size = ${map.size}")
+        }
+    }
 }
