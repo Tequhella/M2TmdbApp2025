@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.core.ktx)
     kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.testing)
 
 
     testImplementation(libs.junit)
