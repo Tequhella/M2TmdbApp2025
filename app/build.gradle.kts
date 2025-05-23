@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    kotlin("kapt")
 }
 
 android {
@@ -66,6 +67,12 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
+
+    // Room
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.core.ktx)
+    kapt(libs.androidx.room.compiler)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
