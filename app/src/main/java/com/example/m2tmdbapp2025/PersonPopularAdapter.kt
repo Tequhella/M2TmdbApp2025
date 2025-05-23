@@ -101,6 +101,16 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, private val a
         maxPopularity = persons
             .mapNotNull { it.popularity }
             .maxOrNull() ?: 0.0
+
+        val sharedPref = appCompatActivity.getPreferences(Context.MODE_PRIVATE)
+        val highscore = sharedPref.getFloat(appCompatActivity.getString(R.string.saved_high_score_key), 0f)
+        if (maxPopularity > highscore) {
+            with (sharedPref.edit()) {
+                putFloat(appCompatActivity.getString(R.string.saved_high_score_key), maxPopularity.toFloat())
+                // apply() // synchrone
+                commit() // asynchrone
+            }
+        }
     }
 
 
