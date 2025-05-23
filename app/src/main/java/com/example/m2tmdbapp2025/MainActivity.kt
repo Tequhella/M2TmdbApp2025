@@ -3,6 +3,7 @@ package com.example.m2tmdbapp2025
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -111,6 +112,7 @@ class MainActivity : AppCompatActivity() {
         ft.commit() */
 
         check4NotificationPermission()
+        showHighScore()
 
         // load 1st page
         loadPage(curPage)
@@ -230,6 +232,12 @@ class MainActivity : AppCompatActivity() {
             ExistingPeriodicWorkPolicy.KEEP,
             tmdbWorkRequest)
 
+    }
+
+    fun showHighScore() {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val highscore = sharedPref.getFloat(getString(R.string.saved_high_score_key), 0f)
+        Log.i(LOGTAG, "person popular high score = $highscore")
     }
 
 }
