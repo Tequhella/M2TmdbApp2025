@@ -116,9 +116,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
         ft.setReorderingAllowed(true)
         ft.add(R.id.social_bar_fcv, SocialBarFragment.newInstance())
-        ft.commit() */
+        ft.commit()
         // Init bt listener
-        binding.button2.setOnClickListener(this)
+        binding.button2.setOnClickListener(this)*/
 
         addLivedataObservers()
         check4NotificationPermission()

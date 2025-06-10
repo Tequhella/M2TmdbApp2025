@@ -1,6 +1,7 @@
 package com.example.m2tmdbapp2025
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -53,7 +54,13 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, private val a
 
         // set social bar fragment container view tag with unique person id
         holder.binding.socialBarFcv.tag = curItem.id.toString()
-
+        /* demo only : no the best place to set the listener
+        holder.binding.personItemCl.setOnClickListener {
+            val intent = Intent()
+            intent.setClass(appCompatActivity,PersonDetailActivity::class.java)
+            intent.putExtra(PERSON_ID_EXTRA_KEY, curItem.id.toString())
+            appCompatActivity.startActivity(intent)
+        } */
     }
 
     override fun onViewAttachedToWindow(holder: PersonPopularViewHolder) {
