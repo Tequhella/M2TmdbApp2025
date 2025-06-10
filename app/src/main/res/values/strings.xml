@@ -13,6 +13,17 @@
     <string name="notification_content">%1$s with a score of %2$f</string>
     <string name="saved_high_score_key" translatable="false">shared_pref_high_score_key</string>
 
+    <!-- Sensor demo -->
+    <string name="sensor_demo_activity_title">Sensor Demo</string>
+    <string name="sensor_demo_button">Sensor Demo</string>
+    <string name="sensor_list_caption">Sensor list</string>
+    <string name="sensor_values_caption">Sensor values</string>
+    <string name="no_sensor_values">No values &#8230;</string>
+    <string name="type_caption">Type:</string>
+    <string name="resolution_caption">Resolution:</string>
+    <string name="range_caption">Max range:</string>
+    <string name="sensor_name">sensor name</string>
+    <string name="sensor_unknown">unknown sensor</string>
 
     <string-array name="score_rating">
         <item>POOR</item>

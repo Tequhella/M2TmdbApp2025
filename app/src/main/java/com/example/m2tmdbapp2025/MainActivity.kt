@@ -44,7 +44,7 @@ const val NOTIFICATION_CHANNEL_ID = "popular_person_notification_channel_id"
 const val TMDB_WORK_REQUEST_TAG = "tmdb-popular-person"
 const val PERSON_ID_EXTRA_KEY = "person_id_ek"
 
-class MainActivity : AppCompatActivity(), /*View.OnClickListener,*/ OnPersonItemClickListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener, OnPersonItemClickListener {
 
     private val LOGTAG = MainActivity::class.simpleName
     private lateinit var binding: ActivityMainBinding
@@ -116,9 +116,9 @@ class MainActivity : AppCompatActivity(), /*View.OnClickListener,*/ OnPersonItem
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
         ft.setReorderingAllowed(true)
         ft.add(R.id.social_bar_fcv, SocialBarFragment.newInstance())
-        ft.commit()
+        ft.commit() */
         // Init bt listener
-        binding.button2.setOnClickListener(this)*/
+        binding.sensorDemoBt.setOnClickListener(this)
 
         addLivedataObservers()
         check4NotificationPermission()
@@ -262,7 +262,7 @@ class MainActivity : AppCompatActivity(), /*View.OnClickListener,*/ OnPersonItem
         }
     }
 
-    /*override fun onClick(v: View?) {
+    override fun onClick(v: View?) {
         Log.i(LOGTAG,"Button $v.id clicked")
        /* val intent = Intent()
         intent.setClass(this,PersonDetailActivity::class.java)
@@ -270,13 +270,11 @@ class MainActivity : AppCompatActivity(), /*View.OnClickListener,*/ OnPersonItem
         intent.putExtra(PERSON_ID_EXTRA_KEY, person.id.toString())
         */
         val intent = Intent().apply {
-            setClass(this@MainActivity, PersonDetailActivity::class.java)
+            setClass(this@MainActivity, SensorDemoActivity::class.java)
             setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            putExtra(PERSON_ID_EXTRA_KEY, "valeur argument 1")
         }
         startActivity(intent)
-
-    } */
+    }
 
     override fun onPersonItemClicked(position: Int) {
         val person = persons[position]
