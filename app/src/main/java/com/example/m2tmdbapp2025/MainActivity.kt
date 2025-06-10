@@ -42,8 +42,9 @@ import java.util.concurrent.TimeUnit
 
 const val NOTIFICATION_CHANNEL_ID = "popular_person_notification_channel_id"
 const val TMDB_WORK_REQUEST_TAG = "tmdb-popular-person"
+const val PERSON_ID_EXTRA_KEY = "person_id_ek"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val LOGTAG = MainActivity::class.simpleName
     private lateinit var binding: ActivityMainBinding
@@ -116,6 +117,9 @@ class MainActivity : AppCompatActivity() {
         ft.setReorderingAllowed(true)
         ft.add(R.id.social_bar_fcv, SocialBarFragment.newInstance())
         ft.commit() */
+        // Init bt listener
+        binding.button2.setOnClickListener(this)
+
         addLivedataObservers()
         check4NotificationPermission()
         showHighScore()
@@ -256,6 +260,22 @@ class MainActivity : AppCompatActivity() {
         socialBarViewModel.isFavorite.observe(this) { map ->
             Log.d(LOGTAG, "is favorite map size = ${map.size}")
         }
+    }
+
+    override fun onClick(v: View?) {
+        Log.i(LOGTAG,"Button $v.id clicked")
+       /* val intent = Intent()
+        intent.setClass(this,PersonDetailActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        intent.putExtra(PERSON_ID_EXTRA_KEY, person.id.toString())
+        */
+        val intent = Intent().apply {
+            setClass(this@MainActivity, PersonDetailActivity::class.java)
+            setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            putExtra(PERSON_ID_EXTRA_KEY, "valeur argument 1")
+        }
+        startActivity(intent)
+
     }
 
     /* deprecated way to handle button click from xml layout
