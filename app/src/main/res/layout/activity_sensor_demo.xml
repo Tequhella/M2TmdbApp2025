@@ -7,4 +7,49 @@
     android:layout_height="match_parent"
     tools:context=".SensorDemoActivity">
 
+    <TextView
+        android:id="@+id/sensor_list_caption_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/sensor_list_caption"
+        app:layout_constraintBottom_toTopOf="@+id/sensor_list_rv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sensor_list_rv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/sensor_values_caption_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sensor_list_caption_tv" />
+
+    <TextView
+        android:id="@+id/sensor_values_caption_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/sensor_values_caption"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/array_values_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sensor_list_rv" />
+
+    <TextView
+        android:id="@+id/array_values_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/no_sensor_values"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sensor_values_caption_tv" />
 </androidx.constraintlayout.widget.ConstraintLayout>
