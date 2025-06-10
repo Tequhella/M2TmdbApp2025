@@ -54,6 +54,7 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, private val a
 
         // set social bar fragment container view tag with unique person id
         holder.binding.socialBarFcv.tag = curItem.id.toString()
+
         /* demo only : no the best place to set the listener
         holder.binding.personItemCl.setOnClickListener {
             val intent = Intent()
@@ -124,9 +125,16 @@ class PersonPopularAdapter(private val persons: ArrayList<Person>, private val a
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
-    class PersonPopularViewHolder(var binding: PersonItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class PersonPopularViewHolder(var binding: PersonItemBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
+            // set unique view id for Fragment Container so that
+            // fragment with the same id can be attached
             binding.socialBarFcv.id= View.generateViewId()
+
+            // set onClick listener
+            binding.personItemCl.setOnClickListener {
+                (appCompatActivity as OnPersonItemClickListener).onPersonItemClicked(adapterPosition)
+            }
         }
     }
 
