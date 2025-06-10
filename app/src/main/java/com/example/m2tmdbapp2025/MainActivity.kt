@@ -4,10 +4,12 @@ import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -255,4 +257,14 @@ class MainActivity : AppCompatActivity() {
             Log.d(LOGTAG, "is favorite map size = ${map.size}")
         }
     }
+
+    /* deprecated way to handle button click from xml layout
+    fun showPersoDetail(view: View) {
+        Log.d(LOGTAG,"Bt clicked")
+        val intent = Intent()
+        intent.setClass(this,PersonDetailActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        //intent.putExtra(PERSON_ID_EXTRA_KEY, person.id.toString())
+        startActivity(intent)
+    } */
 }
