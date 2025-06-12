@@ -4,4 +4,10 @@
         <item name="android:background">@color/gray_400</item>
         <item name="scoreColor">@color/light_blue_400</item>
     </style>
+
+    <style name="Widget.Theme.M2TmdbApp2025.SensorDemoView" parent="">
+        <item name="android:background">@color/gray_400</item>
+        <item name="dialCaption">Sensor Caption</item>
+        <item name="dialColor">@color/light_blue_600</item>
+    </style>
 </resources>
