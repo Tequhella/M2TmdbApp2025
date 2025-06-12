@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.m2tmdbapp2025.databinding.SensorItemBinding
 
 class SensorListAdapter(
-    val sensors: ArrayList<Sensor> /*,
-    private val sensorItemClickListener OnSensorItemClickListener)*/) : RecyclerView.Adapter<SensorListAdapter.SensorItemViewHolder>() {
+    val sensors: ArrayList<Sensor>,
+    private val sensorItemClickListener: OnSensorItemClickListener) : RecyclerView.Adapter<SensorListAdapter.SensorItemViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -29,9 +29,9 @@ class SensorListAdapter(
         val binding: SensorItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
-           /* binding.sensorItemView.setOnClickListener {
+           binding.sensorItemView.setOnClickListener {
                 sensorItemClickListener.onSensorItemClicked(adapterPosition)
-            }*/
+           }
         }
     }
 }
