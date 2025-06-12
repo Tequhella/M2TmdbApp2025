@@ -11,5 +11,4 @@
         android:paddingBottom="40dp"
         app:dialCaption="Caption"
         app:dialColor="@color/black"/>
-
 </FrameLayout>
